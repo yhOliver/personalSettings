@@ -1,0 +1,67 @@
+# gitlab
+#Host gitlab.com
+#HostName gitlab.com
+#PreferredAuthentications publickey
+#IdentityFile ~/.ssh/id_rsa
+#User songyu
+
+# github
+#Host github.com
+#HostName github.com
+#PreferredAuthentications publickey
+#IdentityFile ~/.ssh/id_rsa_github
+#User apollos
+
+
+### First jumphost. Directly reachable
+Host rack01
+  HostName rack01-dn
+  Port  6767
+  User  yanghang  
+
+### Container to jump via rack01
+Host oracle
+  HostName oracle_db
+  User oracle
+  ProxyCommand ssh rack01 -W %h:%p
+
+### Host to jump to via rack01
+Host rack02
+  HostName rack02
+  ProxyCommand ssh rack01 -W %h:%p
+  User yanghang
+
+### Host to jump to via rack01
+Host rack03
+  HostName rack03
+  ProxyCommand ssh rack01 -W %h:%p
+  User  yanghang
+
+### First jumphost. Directly reachable
+Host gpu02
+  HostName gpu02
+  User  hyang  
+
+### Host to jump to via rack01
+Host rack03_gpu2_yangh
+  HostName rack03
+  Port 40022
+  User  yanghang  
+  ProxyCommand ssh rack03 -W %h:%p
+
+### First jumphost. Directly reachable
+Host gpu01
+  HostName gpu01
+  User  hyang  
+
+### First jumphost. Directly reachable
+#Host gpu03
+#  HostName gpu03
+#  User  hyang  
+
+### First jumphost. Directly reachable
+#Host dsk01-dev-gpu1-sy
+#  HostName gpu03
+#  Port  11022
+#  User  hyang  
+
